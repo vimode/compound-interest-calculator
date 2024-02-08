@@ -2,33 +2,13 @@ import { useEffect, useRef, useState } from "react";
 import * as d3 from "d3";
 import "./App.css";
 
-function App() {
-  return (
-    <>
-      <h1>Compound Interest Calculator</h1>
-      {/* Header */}
-      {/* Left Graph */}
-      {/* Right input */}
-      <InputForm />
-      {/* History */}
-      {/* Footer */}
-    </>
-  );
+export function randomUUID():string {
+  return self.crypto.randomUUID();
 }
 
-export default App;
+function App() {
 
-function InputForm() {
-  const [formData, setFormData] = useState({
-    initialDeposit: 1000,
-    rateOfInterest: 2,
-    yearsOfGrowth: 1,
-  });
-  const [formErrors, setformErrors] = useState({
-    initialDeposit: "",
-    rateOfInterest: "",
-    yearsOfGrowth: "",
-  });
+  const [userQueries, setUserQueries] = useState([])
 
   function calculateInterest(formData) {
     const { initialDeposit, yearsOfGrowth, rateOfInterest } = formData;
@@ -56,8 +36,38 @@ function InputForm() {
         increasingInterest: (currentAmount - initialDeposit).toFixed(2),
       });
     }
-    console.log(interestDetails);
+    const newId = randomUUID()
+    setUserQueries([...userQueries, {id: newId, details:interestDetails}]);
   }
+
+  return (
+    <>
+      <h1>Compound Interest Calculator</h1>
+      {/* Header */}
+      {/* Left Graph */}
+      {/* Right input */}
+      <InputForm calculateInterest={calculateInterest}/>
+      {/* History */}
+      <QueryHistory userQueries={userQueries} />
+      {/* Footer */}
+    </>
+  );
+}
+
+export default App;
+
+function InputForm({calculateInterest}) {
+  const [formData, setFormData] = useState({
+    initialDeposit: 1000,
+    rateOfInterest: 2,
+    yearsOfGrowth: 1,
+  });
+  const [formErrors, setformErrors] = useState({
+    initialDeposit: "",
+    rateOfInterest: "",
+    yearsOfGrowth: "",
+  });
+
 
   function handleInputChange(event) {
     setFormData({ ...formData, [event.target.name]: event.target.value });
@@ -65,7 +75,6 @@ function InputForm() {
 
   function handleSubmit(event) {
     event.preventDefault();
-
     calculateInterest(formData);
   }
 
@@ -161,3 +170,21 @@ function InputForm() {
   );
 }
 
+
+function QueryHistory ({userQueries}) {
+  return (
+    <>
+      {userQueries.length > 0 ? (
+        userQueries.map( query => (
+          <div key={query.id}>
+            {query.details.map(item => (
+            <p key={item.year}>year: {item.year}</p>
+            ))}
+          </div>
+        ))
+
+      ) : <>Nothing to see </>}
+    </>
+
+  )
+}
