@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import * as d3 from "d3";
 import "./App.css";
+import localforage from "localforage";
 
 export function randomUUID():string {
   return self.crypto.randomUUID();
@@ -15,11 +16,12 @@ function App() {
     const decimalInterestRate = rateOfInterest / 100;
 
     let currentAmount = initialDeposit;
-    let interestDetails = [];
+    const interestDetails = [];
 
     // Add initial data
     interestDetails.push({
       year: 0,
+      rateOfInterest: rateOfInterest.toFixed(2),
       initialDeposit: initialDeposit.toFixed(2),
       currentAmount: currentAmount.toFixed(2),
       increasingInterest: "0.00",
@@ -31,14 +33,36 @@ function App() {
 
       interestDetails.push({
         year,
+        rateOfInterest: rateOfInterest.toFixed(2),
         initialDeposit: initialDeposit.toFixed(2),
         currentAmount: currentAmount.toFixed(2),
         increasingInterest: (currentAmount - initialDeposit).toFixed(2),
       });
     }
+
     const newId = randomUUID()
     setUserQueries([...userQueries, {id: newId, details:interestDetails}]);
+
   }
+
+  useEffect(() => {
+    let localStorageValue;
+    localforage.getItem('queries')?.then(function (value) {
+      localStorageValue = value ?? [];
+      setUserQueries(localStorageValue)
+    }).catch(function(err) {
+        console.log(err)
+    })
+  },[])
+
+  useEffect(() => {
+    if(userQueries.length > 0 ) {
+    localforage.setItem('queries', userQueries).then( function (value) {
+      console.log(value)
+    }).catch(function (err) {
+        console.log(err)
+      }) }
+  }, [userQueries])
 
   return (
     <>
@@ -174,16 +198,18 @@ function InputForm({calculateInterest}) {
 function QueryHistory ({userQueries}) {
   return (
     <>
+      <h2>History</h2>
       {userQueries.length > 0 ? (
         userQueries.map( query => (
           <div key={query.id}>
-            {query.details.map(item => (
-            <p key={item.year}>year: {item.year}</p>
-            ))}
+            {/* {query.details.map(item => ( */}
+            {/* <p key={item.year}>year: {item.year}</p> */}
+            {/* ))} */}
+            <p>{query.details[query.details.length - 1].year}</p>
           </div>
         ))
 
-      ) : <>Nothing to see </>}
+      ) : <>Create some history :)</>}
     </>
 
   )
