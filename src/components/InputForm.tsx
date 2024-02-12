@@ -1,6 +1,11 @@
 import { useState } from "react";
+import { useUserQueryStore } from "../store/userQueryStore";
+import { randomUUID } from "../utils";
+import { InputFormData } from "../types";
 
-function InputForm({calculateInterest}) {
+function InputForm() {
+  const {userQueries, setUserQueries} = useUserQueryStore()
+
   const [formData, setFormData] = useState({
     initialDeposit: 1000,
     rateOfInterest: 2,
@@ -13,15 +18,47 @@ function InputForm({calculateInterest}) {
   });
 
 
-  function handleInputChange(event) {
+  function handleInputChange(event:React.ChangeEvent<HTMLInputElement>) {
     setFormData({ ...formData, [event.target.name]: event.target.value });
   }
 
-  function handleSubmit(event) {
+  function handleSubmit(event:React.SyntheticEvent) {
     event.preventDefault();
     calculateInterest(formData);
   }
 
+  function calculateInterest(formData:InputFormData) {
+    const { initialDeposit, yearsOfGrowth, rateOfInterest } = formData;
+    const decimalInterestRate = rateOfInterest / 100;
+
+    let currentAmount = initialDeposit;
+    const interestDetails = [];
+
+    // Add initial data
+    interestDetails.push({
+      year: 0,
+      rateOfInterest: Number(rateOfInterest).toFixed(2),
+      initialDeposit: Number(initialDeposit).toFixed(2),
+      currentAmount: currentAmount.toFixed(2),
+      increasingInterest: "0.00",
+    });
+
+    for (let year = 1; year <= yearsOfGrowth; year++) {
+      const interestForYear = currentAmount * decimalInterestRate;
+      currentAmount = currentAmount + interestForYear;
+
+      interestDetails.push({
+        year,
+        rateOfInterest: Number(rateOfInterest).toFixed(2),
+        initialDeposit: Number(initialDeposit).toFixed(2),
+        currentAmount: currentAmount.toFixed(2),
+        increasingInterest: (currentAmount - initialDeposit).toFixed(2),
+      });
+    }
+
+    const newId = randomUUID()
+    setUserQueries([...userQueries, {id: newId, details:interestDetails}]);
+  }
   return (
     <form onSubmit={handleSubmit}>
       <div>
@@ -32,6 +69,7 @@ function InputForm({calculateInterest}) {
         </label>
         <input
           type="number"
+          step="0.01"
           id="initialDeposit"
           name="initialDeposit"
           value={formData.initialDeposit}
@@ -62,6 +100,7 @@ function InputForm({calculateInterest}) {
           id="rateOfInterest"
           name="rateOfInterest"
           value={formData.rateOfInterest}
+          step="0.01"
           onChange={handleInputChange}
           aria-required
           aria-invalid={!!formErrors?.rateOfInterest}
