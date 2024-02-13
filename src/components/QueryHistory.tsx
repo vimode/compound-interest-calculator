@@ -6,6 +6,7 @@ function QueryHistory ({userQueries}) {
         userQueries.map( query => (
           <div key={query.id}>
             <HistoryItem query = {query}/>
+            <hr />
           </div>
         ))
 
@@ -20,7 +21,7 @@ export default QueryHistory;
 function HistoryItem ({query}) {
 
   let {id, details} = query;
-  let lastItem = details[query.details.length - 1]
+  let lastItem = details.slice(-1)[0]
 
   return (
     <>

@@ -1,10 +1,11 @@
-import { useEffect, useRef } from "react";
+import { useEffect} from "react";
 import "./App.css";
 import localforage from "localforage";
 import InputForm from "./components/InputForm";
 import QueryHistory from "./components/QueryHistory";
 import { useUserQueryStore } from "./store/userQueryStore";
 import { UserQuery } from "./types";
+import StackedAreaChart from "./components/StackedAreaChart";
 
 function App() {
 
@@ -29,6 +30,7 @@ function App() {
       <h1>Compound Interest Calculator</h1>
       {/* Header */}
       {/* Left Graph */}
+      <StackedAreaChart data = {userQueries}/>
       {/* Right input */}
       <InputForm />
       {/* History */}

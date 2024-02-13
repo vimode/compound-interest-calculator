@@ -39,7 +39,7 @@ function InputForm() {
       year: 0,
       rateOfInterest: Number(rateOfInterest).toFixed(2),
       initialDeposit: Number(initialDeposit).toFixed(2),
-      currentAmount: currentAmount.toFixed(2),
+      currentAmount: Number(currentAmount).toFixed(2),
       increasingInterest: "0.00",
     });
 
@@ -51,7 +51,7 @@ function InputForm() {
         year,
         rateOfInterest: Number(rateOfInterest).toFixed(2),
         initialDeposit: Number(initialDeposit).toFixed(2),
-        currentAmount: currentAmount.toFixed(2),
+        currentAmount: Number(currentAmount).toFixed(2),
         increasingInterest: (currentAmount - initialDeposit).toFixed(2),
       });
     }
