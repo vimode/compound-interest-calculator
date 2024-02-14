@@ -44,23 +44,36 @@ function StackedAreaChart ({data}:StackedAreaChartProps) {
     const xScale = d3.scaleLinear()
       .domain(d3.extent(lastItem.details, d => d.year))
       .range([0, boundedWidth])
+      .nice()
 
     const yScale = d3.scaleLinear()
       .domain([0, d3.max(lastItem.details, d => d.currentAmount)])
       .range([boundedHeight,0])
       .nice()
 
-    // area
-    const area = d3.area()
+    const areaBuilder = d3.area()
       .x(d => MARGIN.left + xScale(d.year))
       .y(boundedHeight + MARGIN.top)
       .y1(d => MARGIN.top + yScale(d.currentAmount));
 
+    const areaPath = areaBuilder(lastItem.details)
+
+    const area2Builder = d3.area()
+      .x(d => MARGIN.left + xScale(d.year))
+      .y(boundedHeight + MARGIN.top)
+      .y1(d => MARGIN.top + yScale(d.initialDeposit));
+
+    const area2Path = area2Builder(lastItem.details)
+    
     svg.append('path')
-      .datum(lastItem.details)
       .attr('fill', 'steelblue')
-      .attr('fill-opacity', 0.5)
-      .attr('d', area)
+      .attr('fill-opacity', 0.2)
+      .attr('d',areaPath)
+
+    svg.append('path')
+      .attr('fill', 'orange')
+      .attr('fill-opacity', 0.3)
+      .attr('d',area2Path)
 
     // x-axis
     svg.append('g')
@@ -84,6 +97,16 @@ function StackedAreaChart ({data}:StackedAreaChartProps) {
       .attr('dy', '.71em')
       .style('text-anchor', 'end')
       .text('Current Amount');
+
+
+    svg.selectAll("circle")
+      .data(lastItem.details)
+      .join('circle')
+      .attr('cx', d => MARGIN.left + xScale(d.year))
+      .attr('cy', d => MARGIN.top + yScale(d.currentAmount))
+      .attr('r',  5)
+      .attr('fill', 'red')
+
   }
 
 

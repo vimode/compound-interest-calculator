@@ -36,9 +36,9 @@ function HistoryItem ({query}:HistyorItemProps) {
   return (
     <>
         <p>{lastItem.year}</p>
-        <p>{lastItem.initialDeposit}</p>
-        <p>{lastItem.rateOfInterest}</p>
-        <p>{lastItem.currentAmount}</p>
+        <p>{Number(lastItem.initialDeposit).toFixed(2)}</p>
+        <p>{Number(lastItem.rateOfInterest).toFixed(2)}</p>
+        <p>{Number(lastItem.currentAmount).toFixed(2)}</p>
     </>
   )
 }
