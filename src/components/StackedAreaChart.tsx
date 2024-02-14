@@ -18,9 +18,7 @@ type StackedAreaChartProps = {
   data: UserQuery[]
 }
 
-function StackedAreaChart ({
-  data
-}:StackedAreaChartProps) {
+function StackedAreaChart ({data}:StackedAreaChartProps) {
 
   const svgRef = useRef(null)
 
@@ -44,18 +42,19 @@ function StackedAreaChart ({
 
     // Create X and Y Scales
     const xScale = d3.scaleLinear()
-      .domain([0, d3.max(lastItem.details, d => d.year)])
+      .domain(d3.extent(lastItem.details, d => d.year))
       .range([0, boundedWidth])
 
     const yScale = d3.scaleLinear()
-      .domain([0, d3.max(lastItem.details, d => Number(d.currentAmount))])
-      .range([boundedHeight, 0])
+      .domain([0, d3.max(lastItem.details, d => d.currentAmount)])
+      .range([boundedHeight,0])
+      .nice()
 
     // area
     const area = d3.area()
       .x(d => MARGIN.left + xScale(d.year))
       .y(boundedHeight + MARGIN.top)
-      .y1(d => MARGIN.top + yScale(Number(d.currentAmount)));
+      .y1(d => MARGIN.top + yScale(d.currentAmount));
 
     svg.append('path')
       .datum(lastItem.details)

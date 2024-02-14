@@ -1,4 +1,10 @@
-function QueryHistory ({userQueries}) {
+import { UserQuery } from "../types";
+
+type QueryHistoryProps = {
+  userQueries: UserQuery[];
+}
+
+function QueryHistory ({userQueries}:QueryHistoryProps) {
   return (
     <>
       <h2>History</h2>
@@ -10,7 +16,7 @@ function QueryHistory ({userQueries}) {
           </div>
         ))
 
-      ) : <>Create some history :)</>}
+      ) : <>Create some history 📈</>}
     </>
 
   )
@@ -18,10 +24,14 @@ function QueryHistory ({userQueries}) {
 
 export default QueryHistory;
 
-function HistoryItem ({query}) {
+type HistyorItemProps = {
+  query : UserQuery;
+}
 
-  let {id, details} = query;
-  let lastItem = details.slice(-1)[0]
+function HistoryItem ({query}:HistyorItemProps) {
+
+  const {details} = query;
+  const lastItem = details.slice(-1)[0]
 
   return (
     <>

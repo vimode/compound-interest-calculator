@@ -12,9 +12,9 @@ function InputForm() {
     yearsOfGrowth: 1,
   });
   const [formErrors, setformErrors] = useState({
-    initialDeposit: "",
-    rateOfInterest: "",
-    yearsOfGrowth: "",
+    initialDeposit:null,
+    rateOfInterest:null,
+    yearsOfGrowth:null,
   });
 
 
@@ -31,34 +31,37 @@ function InputForm() {
     const { initialDeposit, yearsOfGrowth, rateOfInterest } = formData;
     const decimalInterestRate = rateOfInterest / 100;
 
-    let currentAmount = initialDeposit;
+    let currentAmount = Number(initialDeposit);
     const interestDetails = [];
 
     // Add initial data
     interestDetails.push({
       year: 0,
-      rateOfInterest: Number(rateOfInterest).toFixed(2),
-      initialDeposit: Number(initialDeposit).toFixed(2),
-      currentAmount: Number(currentAmount).toFixed(2),
-      increasingInterest: "0.00",
+      rateOfInterest: rateOfInterest,
+      initialDeposit:initialDeposit,
+      currentAmount:currentAmount,
+      increasingInterest: 0,
     });
 
     for (let year = 1; year <= yearsOfGrowth; year++) {
-      const interestForYear = currentAmount * decimalInterestRate;
-      currentAmount = currentAmount + interestForYear;
+      const interestForYear = Number(currentAmount) * Number(decimalInterestRate);
+      console.log(interestForYear)
+      currentAmount = Number(currentAmount) + Number(interestForYear);
 
       interestDetails.push({
         year,
-        rateOfInterest: Number(rateOfInterest).toFixed(2),
-        initialDeposit: Number(initialDeposit).toFixed(2),
-        currentAmount: Number(currentAmount).toFixed(2),
-        increasingInterest: (currentAmount - initialDeposit).toFixed(2),
+        rateOfInterest:rateOfInterest,
+        initialDeposit:initialDeposit,
+        currentAmount:currentAmount,
+        increasingInterest:interestForYear,
       });
     }
+    console.log(interestDetails)
 
     const newId = randomUUID()
     setUserQueries([...userQueries, {id: newId, details:interestDetails}]);
   }
+
   return (
     <form onSubmit={handleSubmit}>
       <div>

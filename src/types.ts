@@ -6,10 +6,10 @@ export interface InputFormData {
 
 export interface InterestDetails {
   year: number;
-  rateOfInterest:string;
-  initialDeposit:string;
-  currentAmount:string;
-  increasingInterest:string | number;
+  rateOfInterest:number;
+  initialDeposit:number;
+  currentAmount:number;
+  increasingInterest: number;
 }
 
 export interface UserQuery {
