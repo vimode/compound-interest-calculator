@@ -47,7 +47,7 @@ function StackedAreaChart ({data}:StackedAreaChartProps) {
       .nice()
 
     const yScale = d3.scaleLinear()
-      .domain([0, d3.max(lastItem.details, d => d.currentAmount)])
+      .domain([lastItem.details[0].initialDeposit - (lastItem.details[0].initialDeposit * 0.02) , d3.max(lastItem.details, d => d.currentAmount)])
       .range([boundedHeight,0])
       .nice()
 

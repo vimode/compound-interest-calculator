@@ -6,6 +6,7 @@ import QueryHistory from "./components/QueryHistory";
 import { useUserQueryStore } from "./store/userQueryStore";
 import { UserQuery } from "./types";
 import StackedAreaChart from "./components/StackedAreaChart";
+import OverviewBar from "./components/OverviewBar";
 
 function App() {
 
@@ -28,7 +29,7 @@ function App() {
   return (
     <>
       <h1>Compound Interest Calculator</h1>
-      {/* Header */}
+      <OverviewBar data = {userQueries} />
       {/* Left Graph */}
       <StackedAreaChart data = {userQueries}/>
       {/* Right input */}
