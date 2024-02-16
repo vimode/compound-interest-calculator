@@ -27,8 +27,8 @@ function App() {
   }, [userQueries])
 
   return (
-    <>
-      <h1>Compound Interest Calculator</h1>
+    <div className="outer_wrapper">
+      <h1 className="header">Compound Interest Calculator</h1>
       <OverviewBar data = {userQueries} />
       {/* Left Graph */}
       <StackedAreaChart data = {userQueries}/>
@@ -37,7 +37,8 @@ function App() {
       {/* History */}
       <QueryHistory userQueries={userQueries} />
       {/* Footer */}
-    </>
+      <footer>:)</footer>
+    </div>
   );
 }
 

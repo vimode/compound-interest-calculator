@@ -66,19 +66,19 @@ function StackedAreaChart ({data}:StackedAreaChartProps) {
     const area2Path = area2Builder(lastItem.details)
     
     svg.append('path')
-      .attr('fill', 'steelblue')
-      .attr('fill-opacity', 0.2)
+      .attr('fill', '#333652')
+      .attr('fill-opacity', 0.5)
       .attr('d',areaPath)
 
     svg.append('path')
-      .attr('fill', 'orange')
-      .attr('fill-opacity', 0.3)
+      .attr('fill', '#FAD02C')
+      .attr('fill-opacity', 0.8)
       .attr('d',area2Path)
 
     // x-axis
     svg.append('g')
       .attr('transform', `translate(${MARGIN.left}, ${boundedHeight + MARGIN.top})`)
-      .call(d3.axisBottom(xScale))
+      .call(d3.axisBottom(xScale).ticks(5, 's'))
       .append('text')
       .attr('class', 'label')
       .attr('x',boundedWidth)
@@ -89,7 +89,7 @@ function StackedAreaChart ({data}:StackedAreaChartProps) {
     // y-axis
     svg.append('g')
       .attr('transform', `translate(${MARGIN.left},${MARGIN.top})`)
-      .call(d3.axisLeft(yScale))
+      .call(d3.axisLeft(yScale).ticks(5, '~s'))
       .append('text')
       .attr('class', 'label')
       .attr('transform', 'rotate(-90)')
@@ -104,19 +104,21 @@ function StackedAreaChart ({data}:StackedAreaChartProps) {
       .join('circle')
       .attr('cx', d => MARGIN.left + xScale(d.year))
       .attr('cy', d => MARGIN.top + yScale(d.currentAmount))
-      .attr('r',  5)
-      .attr('fill', 'red')
+      .attr('r',  6)
+      .attr('fill', '#FAD02C')
+      .attr('stroke-width',1)
+      .attr('stroke', "#333652")
 
   }
 
 
 
   return (
-    <div>
+    <section className="chart_wrapper">
       <svg width={width} height={height} ref={svgRef}>
 
       </svg>
-    </div>
+    </section>
   )
 
 }

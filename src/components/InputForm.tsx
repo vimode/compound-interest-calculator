@@ -63,7 +63,7 @@ function InputForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form className="inputForm_wrapper" onSubmit={handleSubmit}>
       <div>
         <label htmlFor="initialDeposit">
           Initial Deposit
@@ -151,7 +151,7 @@ function InputForm() {
           </span>
         )}
       </div>
-      <button>Submit</button>
+      <button type="submit">Calculate</button>
     </form>
   );
 }
