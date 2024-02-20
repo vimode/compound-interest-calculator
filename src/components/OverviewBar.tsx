@@ -16,7 +16,7 @@ function OverviewBar ({data}:OverviewBarProps) {
       <ul>
         <li>
           <p>
-              <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24"><path fill="none" stroke="#000000" stroke-width="2" d="M1 5h22v14H1zm1 4a3 3 0 0 0 3-3m-3 9a3 3 0 0 1 3 3m17-9a3 3 0 0 1-3-3m3 9a3 3 0 0 0-3 3m-7-2c1.657 0 3-1.79 3-4s-1.343-4-3-4s-3 1.79-3 4s1.343 4 3 4Z"></path></svg>
+              <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24"><path fill="none" stroke="#000000" strokeWidth="2" d="M1 5h22v14H1zm1 4a3 3 0 0 0 3-3m-3 9a3 3 0 0 1 3 3m17-9a3 3 0 0 1-3-3m3 9a3 3 0 0 0-3 3m-7-2c1.657 0 3-1.79 3-4s-1.343-4-3-4s-3 1.79-3 4s1.343 4 3 4Z"></path></svg>
           </p>
           <div>
             <p>Amount</p>
@@ -40,7 +40,7 @@ function OverviewBar ({data}:OverviewBarProps) {
           </div>
         </li>
         <li>
-          <p><svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 512 512"><rect width="448" height="256" x="32" y="80" fill="none" stroke="#000000" stroke-linejoin="round" stroke-width="32" rx="16" ry="16" transform="rotate(180 256 208)"></rect><path fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M64 384h384M96 432h320"></path><circle cx="256" cy="208" r="80" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"></circle><path fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M480 160a80 80 0 0 1-80-80M32 160a80 80 0 0 0 80-80m368 176a80 80 0 0 0-80 80M32 256a80 80 0 0 1 80 80"></path></svg></p>
+          <p><svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 512 512"><rect width="448" height="256" x="32" y="80" fill="none" stroke="#000000" strokeLinejoin="round" strokeWidth="32" rx="16" ry="16" transform="rotate(180 256 208)"></rect><path fill="none" stroke="#000000" strokeLinecap="round" strokeLinejoin="round" strokeWidth="32" d="M64 384h384M96 432h320"></path><circle cx="256" cy="208" r="80" fill="none" stroke="#000000" strokeLinecap="round" strokeLinejoin="round" strokeWidth="32"></circle><path fill="none" stroke="#000000" strokeLinecap="round" strokeLinejoin="round" strokeWidth="32" d="M480 160a80 80 0 0 1-80-80M32 160a80 80 0 0 0 80-80m368 176a80 80 0 0 0-80 80M32 256a80 80 0 0 1 80 80"></path></svg></p>
           <div>
             <p>Total</p>
             <p>{Number(lastItem.currentAmount).toFixed(2)}</p>
