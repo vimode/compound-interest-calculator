@@ -21,7 +21,6 @@ type StackedAreaChartProps = {
 function StackedAreaChart ({data}:StackedAreaChartProps) {
 
   const svgRef = useRef(null)
-
   const lastItem = data.slice(-1)[0]
 
   useEffect(() => {
@@ -29,7 +28,6 @@ function StackedAreaChart ({data}:StackedAreaChartProps) {
       drawAreaChart();
     }
   },[data])
-
 
   const boundedWidth = width - MARGIN.left - MARGIN.right;
   const boundedHeight = height - MARGIN.top - MARGIN.bottom;
@@ -105,7 +103,7 @@ function StackedAreaChart ({data}:StackedAreaChartProps) {
 
     tooltip.append('rect')
       .attr('width', 200)
-      .attr('height',100)
+      .attr('height',80)
       .attr('fill', 'rgba(0,0,0,0.8)')
       .attr('rx', 5)
       .attr('ry', 5);
@@ -118,19 +116,13 @@ function StackedAreaChart ({data}:StackedAreaChartProps) {
 
     tooltip.append('text')
       .attr('x', 10)
-      .attr('y',40)
-      .attr('fill', '#fff')
-      .text('Initial Deposit: ')
-
-    tooltip.append('text')
-      .attr('x', 10)
-      .attr('y', 60)
+      .attr('y', 40)
       .attr('fill', '#fff')
       .text('Interest: ')
 
     tooltip.append('text')
       .attr('x', 10)
-      .attr('y', 80)
+      .attr('y', 60)
       .attr('fill', '#fff')
       .text('Current Amount: ')
 
@@ -148,32 +140,20 @@ function StackedAreaChart ({data}:StackedAreaChartProps) {
       .style("cursor", 'pointer')
       .on('mouseover', (event,d) => {
         const tooltipWidth = 200;
-        const tooltipHeight = 100;
-        const tooltipX = MARGIN.left + xScale(d.year)
-        const tooltipY = MARGIN.top + yScale(d.currentAmount)
-        //
-        const maxToolTipX = width - tooltipWidth - MARGIN.left;
-        const maxToolTipY = height - tooltipHeight  - MARGIN.bottom;
+        const tooltipY = MARGIN.top 
+        const tooltipX = (width - tooltipWidth) / 2; 
 
-        const adjustedToolTipX = Math.min(tooltipX, maxToolTipX)
-        const adjustedToolTipY = Math.min(tooltipY, maxToolTipY)
-
-        //     const svgWidth = MARGIN.left + boundedWidth + MARGIN.right;
-        //     const tooltipX = (svgWidth - tooltipWidth) / 2; // Center the tooltip horizontally
-        // tooltip.attr('transform', `translate(${tooltipX}, ${MARGIN.top})`)
+        tooltip.attr('transform', `translate(${tooltipX}, ${tooltipY})`)
         tooltip.style('font-weight', 'bold')
         tooltip.style('display', 'block')
-        tooltip.attr('transform', `translate(${adjustedToolTipX}, ${adjustedToolTipY})`)
         tooltip.select('text:nth-child(2)').text(`Year: ${d.year}`)
-        tooltip.select('text:nth-child(3)').text(`Initial Deposit: ${Number(d.initialDeposit).toFixed(2)}`)
-        tooltip.select('text:nth-child(4)').text(`Interest: ${Number(d.increasingInterest).toFixed(2)}`)
-        tooltip.select('text:nth-child(5)').text(`Current Amount: ${Number(d.currentAmount).toFixed(2)}`)
+        tooltip.select('text:nth-child(3)').text(`Interest: ${Number(d.increasingInterest).toFixed(2)}`)
+        tooltip.select('text:nth-child(4)').text(`Current Amount: ${Number(d.currentAmount).toFixed(2)}`)
       } )
     .on('mouseout', () => {
         tooltip.style('display', 'none')
       })
   }
-
 
 
   return (
