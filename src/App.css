@@ -89,6 +89,7 @@
   width: 100%;
   font-weight: 600;
   margin-top: var(--space-4);
+  cursor: pointer;
 }
 
 

@@ -8,6 +8,10 @@ type OverviewBarProps = {
 function OverviewBar({ data }: OverviewBarProps) {
   const latestItem = data?.slice(-1)[0];
   const lastItem = latestItem?.details.slice(-1)[0] || 1;
+  const totalInterest = latestItem.details.reduce((acc,value) => 
+    Number(acc) + Number(value.increasingInterest),
+    0
+  )
 
   return (
     <section className="overview_wrapper">
@@ -69,7 +73,7 @@ function OverviewBar({ data }: OverviewBarProps) {
             </p>
             <div>
               <p>Interest</p>
-              <p>{Number(lastItem.increasingInterest).toFixed(2)}</p>
+              <p>{Number(totalInterest).toFixed(2)}</p>
             </div>
           </li>
           <li>

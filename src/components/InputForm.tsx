@@ -1,16 +1,19 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useUserQueryStore } from "../store/userQueryStore";
 import { randomUUID } from "../utils";
 import { InputFormData } from "../types";
 
 function InputForm() {
-  const { userQueries, setUserQueries } = useUserQueryStore();
+  const { userQueries, setUserQueries } = useUserQueryStore((state) => {
+    return { userQueries: state.userQueries, setUserQueries: state.setUserQueries}
+  });
 
   const [formData, setFormData] = useState({
     initialDeposit: 1000,
     rateOfInterest: 2,
-    yearsOfGrowth: 1,
+    yearsOfGrowth: 5,
   });
+
   const [formErrors, setformErrors] = useState({
     initialDeposit: null,
     rateOfInterest: null,
@@ -43,9 +46,8 @@ function InputForm() {
     });
 
     for (let year = 1; year <= yearsOfGrowth; year++) {
-      const interestForYear =
-        Number(currentAmount) * Number(decimalInterestRate);
-      console.log(interestForYear);
+      const interestForYear = Number(currentAmount) * Number(decimalInterestRate);
+
       currentAmount = Number(currentAmount) + Number(interestForYear);
 
       interestDetails.push({
@@ -56,7 +58,6 @@ function InputForm() {
         increasingInterest: interestForYear,
       });
     }
-    console.log(interestDetails);
 
     const newId = randomUUID();
     setUserQueries([...userQueries, { id: newId, details: interestDetails }]);

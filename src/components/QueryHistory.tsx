@@ -9,7 +9,7 @@ function QueryHistory({ userQueries }: QueryHistoryProps) {
     <section className="history_wrapper">
       <h2>History</h2>
       {userQueries.length > 0 ? (
-        userQueries.map((query) => (
+        [...userQueries].reverse().map((query) => (
           <div key={query.id}>
             <HistoryItem query={query} />
             <hr />
