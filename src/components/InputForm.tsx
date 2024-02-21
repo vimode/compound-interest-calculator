@@ -4,7 +4,7 @@ import { randomUUID } from "../utils";
 import { InputFormData } from "../types";
 
 function InputForm() {
-  const {userQueries, setUserQueries} = useUserQueryStore()
+  const { userQueries, setUserQueries } = useUserQueryStore();
 
   const [formData, setFormData] = useState({
     initialDeposit: 1000,
@@ -12,22 +12,21 @@ function InputForm() {
     yearsOfGrowth: 1,
   });
   const [formErrors, setformErrors] = useState({
-    initialDeposit:null,
-    rateOfInterest:null,
-    yearsOfGrowth:null,
+    initialDeposit: null,
+    rateOfInterest: null,
+    yearsOfGrowth: null,
   });
 
-
-  function handleInputChange(event:React.ChangeEvent<HTMLInputElement>) {
+  function handleInputChange(event: React.ChangeEvent<HTMLInputElement>) {
     setFormData({ ...formData, [event.target.name]: event.target.value });
   }
 
-  function handleSubmit(event:React.SyntheticEvent) {
+  function handleSubmit(event: React.SyntheticEvent) {
     event.preventDefault();
     calculateInterest(formData);
   }
 
-  function calculateInterest(formData:InputFormData) {
+  function calculateInterest(formData: InputFormData) {
     const { initialDeposit, yearsOfGrowth, rateOfInterest } = formData;
     const decimalInterestRate = rateOfInterest / 100;
 
@@ -38,28 +37,29 @@ function InputForm() {
     interestDetails.push({
       year: 0,
       rateOfInterest: rateOfInterest,
-      initialDeposit:initialDeposit,
-      currentAmount:currentAmount,
+      initialDeposit: initialDeposit,
+      currentAmount: currentAmount,
       increasingInterest: 0,
     });
 
     for (let year = 1; year <= yearsOfGrowth; year++) {
-      const interestForYear = Number(currentAmount) * Number(decimalInterestRate);
-      console.log(interestForYear)
+      const interestForYear =
+        Number(currentAmount) * Number(decimalInterestRate);
+      console.log(interestForYear);
       currentAmount = Number(currentAmount) + Number(interestForYear);
 
       interestDetails.push({
         year,
-        rateOfInterest:rateOfInterest,
-        initialDeposit:initialDeposit,
-        currentAmount:currentAmount,
-        increasingInterest:interestForYear,
+        rateOfInterest: rateOfInterest,
+        initialDeposit: initialDeposit,
+        currentAmount: currentAmount,
+        increasingInterest: interestForYear,
       });
     }
-    console.log(interestDetails)
+    console.log(interestDetails);
 
-    const newId = randomUUID()
-    setUserQueries([...userQueries, {id: newId, details:interestDetails}]);
+    const newId = randomUUID();
+    setUserQueries([...userQueries, { id: newId, details: interestDetails }]);
   }
 
   return (
