@@ -31,8 +31,9 @@
 .outer_wrapper {
   display:grid;
   width: 100%;
-  place-content:center;
+  max-width: 1280px;
   row-gap: var(--space-12);
+  column-gap: var(--space-4);
   padding: var(--space-8);
   grid-template-areas:
   "title title"
@@ -51,12 +52,47 @@
 /* OVERVIEW */
 .overview_wrapper {
   grid-area: overview;
+  background-color: var(--color-white);
+  border-radius: 10px;
 }
 
 .overview_wrapper ul {
   display:flex;
-  width: 100%;
-  place-content: space-between;
+  width:100%;
+  justify-content: space-between;
+  padding:  var(--space-6) ;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.overview_wrapper ul li {
+  display:flex;
+  gap: var(--space-4);
+  justify-content: center;
+  align-self: center;
+}
+
+.overview_wrapper ul li svg {
+  align-self: center;
+}
+
+.overview_wrapper ul li div {
+  display:flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.overview_wrapper ul li div p {
+  font-weight: bold;
+}
+
+.overview_wrapper ul li div p:nth-child(1){
+  color: var(--color-light-text);
+}
+
+
+.overview_wrapper ul li div p:nth-child(2){
+  font-size: var(--text-l);
 }
 
 /* CHART */
@@ -70,7 +106,13 @@
   display:flex;
   flex-direction: column;
   gap: var(--space-4);
-  place-items:center;
+  place-items: center;
+  background-color: var(--color-white);
+  border-radius: 10px;
+  padding: var(--space-6);
+  margin-left: auto;
+  width: 100%;
+  max-width: 300px;
 }
 
 .inputForm_wrapper div {
@@ -90,6 +132,7 @@
   font-weight: 600;
   margin-top: var(--space-4);
   cursor: pointer;
+  margin-top: auto;
 }
 
 

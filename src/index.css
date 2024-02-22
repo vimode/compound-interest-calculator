@@ -59,7 +59,7 @@ ul, ol {
 
   --color-highlight: hsl(48, 95%, 58%);
   --color-secondary: hsl(234, 23%, 26%);
-  --color-light-bg: hsl(208, 32%, 67%);
+  --color-light-text: hsl(208, 32%, 67%);
   --color-white: hsl(220, 7%, 92%);
 
   --text-3xl: 3.5rem;
