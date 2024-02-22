@@ -32,17 +32,12 @@ function App() {
     <div className="outer_wrapper">
       <h1 className="header">Compound Interest Calculator</h1>
       <OverviewBar data={userQueries} />
-      {/* Left Graph */}
       <StackedAreaChart data={userQueries} />
-      {/* Right input */}
       <InputForm />
-      {/* History */}
       <QueryHistory userQueries={userQueries} />
-      {/* Footer */}
       <footer>:)</footer>
     </div>
   );
 }
 
 export default App;
-
