@@ -90,7 +90,6 @@
   color: var(--color-light-text);
 }
 
-
 .overview_wrapper ul li div p:nth-child(2){
   font-size: var(--text-l);
 }
@@ -98,6 +97,8 @@
 /* CHART */
 .chart_wrapper {
   grid-area: chart;
+  width: 100%;
+  max-width: 600px;
 }
 
 /* INPUTFORM */
@@ -158,4 +159,19 @@ hr {
 
 footer {
   grid-area: footer;
+}
+
+/* Responsive */
+
+@media (max-width: 800px) {
+  .outer_wrapper {
+    grid-template-areas:
+    "title"
+    "overview"
+    "inputform"
+    "chart"
+    "history"
+    "footer";
+  }
+
 }

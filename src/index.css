@@ -113,8 +113,11 @@ body {
   }
 }
 
-@media ( max-width: 500px) {
+@media ( max-width: 650px) {
   :root {
-    --font-size-primary : 12px;
+    --font-size-primary : 14px;
   }
+
+
+
 }
