@@ -14,5 +14,6 @@ export interface InterestDetails {
 
 export interface UserQuery {
   id: string;
+  query: InputFormData;
   details: InterestDetails[];
 }

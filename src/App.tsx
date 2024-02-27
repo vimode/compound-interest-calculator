@@ -1,12 +1,12 @@
+import localforage from "localforage";
 import { useEffect } from "react";
 import "./App.css";
-import localforage from "localforage";
 import InputForm from "./components/InputForm";
+import OverviewBar from "./components/OverviewBar";
 import QueryHistory from "./components/QueryHistory";
+import StackedAreaChart from "./components/StackedAreaChart";
 import { useUserQueryStore } from "./store/userQueryStore";
 import { UserQuery } from "./types";
-import StackedAreaChart from "./components/StackedAreaChart";
-import OverviewBar from "./components/OverviewBar";
 
 function App() {
   const { userQueries, setUserQueries } = useUserQueryStore();

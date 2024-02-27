@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useUserQueryStore } from "../store/userQueryStore";
-import { randomUUID } from "../utils";
+import { compareObjects, randomUUID } from "../utils";
 import { InputFormData } from "../types";
 
 function InputForm() {
@@ -26,6 +26,8 @@ function InputForm() {
 
   function handleSubmit(event: React.SyntheticEvent) {
     event.preventDefault();
+    // console.log(userQueries)
+    compareObjects(formData,userQueries)
     calculateInterest(formData);
   }
 
@@ -60,7 +62,8 @@ function InputForm() {
     }
 
     const newId = randomUUID();
-    setUserQueries([...userQueries, { id: newId, details: interestDetails }]);
+    const query = formData;
+    setUserQueries([...userQueries, { id: newId, query, details: interestDetails }]);
   }
 
   return (
