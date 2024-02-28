@@ -98,7 +98,6 @@
 .chart_wrapper {
   grid-area: chart;
   width: 100%;
-  max-width: 600px;
 }
 
 /* INPUTFORM */
@@ -150,9 +149,9 @@ hr {
 
 .historyItems_wrapper {
   display:flex;
-  place-content: space-between;
+  justify-content: space-between;
+  padding:var(--space-8);
 }
-
 
 /* FOOTER */
 
@@ -172,6 +171,17 @@ footer {
     "chart"
     "history"
     "footer";
+  }
+  
+  .overview_wrapper ul {
+    flex-wrap:wrap;
+    gap: var(--space-10);
+    justify-content:center;
+  }
+
+  .inputForm_wrapper {
+    margin: 0 auto;
+    max-width: 100%;
   }
 
 }

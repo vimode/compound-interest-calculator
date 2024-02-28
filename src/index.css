@@ -100,6 +100,11 @@ body {
   font-family:'Lato';
 }
 
+svg, text {
+  font-family: 'Lato';
+  font-size: 1rem;
+}
+
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;
@@ -117,7 +122,4 @@ body {
   :root {
     --font-size-primary : 14px;
   }
-
-
-
 }
