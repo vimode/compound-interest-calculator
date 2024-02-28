@@ -1,12 +1,11 @@
 import { useState } from "react";
-import { useUserQueryStore } from "../store/userQueryStore";
-import { compareObjects, randomUUID } from "../utils";
 import { InputFormData } from "../types";
 
-function InputForm() {
-  const { userQueries, setUserQueries } = useUserQueryStore((state) => {
-    return { userQueries: state.userQueries, setUserQueries: state.setUserQueries}
-  });
+type InputFormProps = {
+  addNewEntry : (formData:InputFormData) => void;
+}
+
+function InputForm({addNewEntry}:InputFormProps) {
 
   const [formData, setFormData] = useState({
     initialDeposit: 1000,
@@ -26,45 +25,9 @@ function InputForm() {
 
   function handleSubmit(event: React.SyntheticEvent) {
     event.preventDefault();
-    // console.log(userQueries)
-    compareObjects(formData,userQueries)
-    calculateInterest(formData);
+    addNewEntry(formData)
   }
 
-  function calculateInterest(formData: InputFormData) {
-    const { initialDeposit, yearsOfGrowth, rateOfInterest } = formData;
-    const decimalInterestRate = rateOfInterest / 100;
-
-    let currentAmount = Number(initialDeposit);
-    const interestDetails = [];
-
-    // Add initial data
-    interestDetails.push({
-      year: 0,
-      rateOfInterest: rateOfInterest,
-      initialDeposit: initialDeposit,
-      currentAmount: currentAmount,
-      increasingInterest: 0,
-    });
-
-    for (let year = 1; year <= yearsOfGrowth; year++) {
-      const interestForYear = Number(currentAmount) * Number(decimalInterestRate);
-
-      currentAmount = Number(currentAmount) + Number(interestForYear);
-
-      interestDetails.push({
-        year,
-        rateOfInterest: rateOfInterest,
-        initialDeposit: initialDeposit,
-        currentAmount: currentAmount,
-        increasingInterest: interestForYear,
-      });
-    }
-
-    const newId = randomUUID();
-    const query = formData;
-    setUserQueries([...userQueries, { id: newId, query, details: interestDetails }]);
-  }
 
   return (
     <form className="inputForm_wrapper" onSubmit={handleSubmit}>

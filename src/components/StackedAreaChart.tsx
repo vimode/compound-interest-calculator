@@ -14,17 +14,18 @@ const height = 400;
 
 type StackedAreaChartProps = {
   data: UserQuery[];
+  chartItem: string;
 };
 
-function StackedAreaChart({ data }: StackedAreaChartProps) {
+function StackedAreaChart({ data, chartItem }: StackedAreaChartProps) {
   const svgRef = useRef(null);
-  const lastItem = data.slice(-1)[0];
+  const lastItem = data.filter(item =>  item.id === chartItem)[0]
 
   useEffect(() => {
-    if (data && data.length > 0) {
+    if (chartItem) {
       drawAreaChart();
     }
-  }, [data]);
+  }, [chartItem]);
 
   const boundedWidth = width - MARGIN.left - MARGIN.right;
   const boundedHeight = height - MARGIN.top - MARGIN.bottom;

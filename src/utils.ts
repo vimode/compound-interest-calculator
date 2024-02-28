@@ -1,14 +1,50 @@
-// generate a random UUID
+import { InputFormData, InterestDetails, UserQuery } from "./types";
+
+// Generate a random UUID
 export function randomUUID():string {
   return self.crypto.randomUUID();
 }
 
-// check if two objects are strictly equal
-export function compareObjects (inputDataObject, allQueries) {
-  const inputValues= Object.values(inputDataObject);
-  console.log(`inputvalues: ${inputValues}`)
+// Calculate Compound Interest 
+export function calculateInterest(formData: InputFormData) : InterestDetails[] {
+  const { initialDeposit, yearsOfGrowth, rateOfInterest } = formData;
+  const decimalInterestRate = rateOfInterest / 100;
 
-  for(let thisQuery of allQueries) {
+  let currentAmount = Number(initialDeposit);
+  const interestDetails = [];
+
+  // Add initial data
+  interestDetails.push({
+    year: 0,
+    rateOfInterest: rateOfInterest,
+    initialDeposit: initialDeposit,
+    currentAmount: currentAmount,
+    increasingInterest: 0,
+  });
+
+  for (let year = 1; year <= yearsOfGrowth; year++) {
+    const interestForYear = Number(currentAmount) * Number(decimalInterestRate);
+
+    currentAmount = Number(currentAmount) + Number(interestForYear);
+
+    interestDetails.push({
+      year,
+      rateOfInterest: rateOfInterest,
+      initialDeposit: initialDeposit,
+      currentAmount: currentAmount,
+      increasingInterest: interestForYear,
+    });
+  }
+
+  return interestDetails;
+
+  }
+
+// Compare input form data with userQueries to find matching entry id
+export function compareObjects (inputDataObject:InputFormData, allQueries:UserQuery[]) : string | null {
+  const inputValues= Object.values(inputDataObject);
+
+  for(const thisQuery of allQueries) {
     const queryValues = Object.values(thisQuery.query)
     if(inputValues.length !== queryValues.length) continue;
 
@@ -20,7 +56,7 @@ export function compareObjects (inputDataObject, allQueries) {
       }
     }
     if(isMatch) {
-      console.log(`thisQuery: ${thisQuery.id}`)
+      return thisQuery.id
     }
   }
   return null

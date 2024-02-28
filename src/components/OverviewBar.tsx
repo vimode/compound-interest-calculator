@@ -3,12 +3,15 @@ import DonutChart from "./DonutChart";
 
 type OverviewBarProps = {
   data: UserQuery[];
+  chartItem: string;
 };
 
-function OverviewBar({ data }: OverviewBarProps) {
+function OverviewBar({ data, chartItem }: OverviewBarProps) {
 
-  const latestItem = data?.slice(-1)[0];
+  const latestItem = data.filter(item =>  item.id === chartItem)[0]
   const lastItem = latestItem?.details.slice(-1)[0] || 1;
+
+  // accumulated interest, just the interest $$$
   const totalInterest = latestItem?.details.reduce((acc,value) => 
     Number(acc) + Number(value.increasingInterest),
     0
