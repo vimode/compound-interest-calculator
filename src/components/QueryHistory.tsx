@@ -33,11 +33,11 @@ function HistoryItem({ query }: HistyorItemProps) {
   const lastItem = details.slice(-1)[0];
 
   return (
-    <div className="historyItems_wrapper">
-      <p>{lastItem.year}</p>
-      <p>{Number(lastItem.initialDeposit).toFixed(2)}</p>
-      <p>{Number(lastItem.rateOfInterest).toFixed(2)}</p>
-      <p>{Number(lastItem.currentAmount).toFixed(2)}</p>
-    </div>
+    <ul className="historyItems_wrapper">
+      <li>{lastItem.year}</li>
+      <li>{Number(lastItem.initialDeposit).toFixed(2)}</li>
+      <li>{Number(lastItem.rateOfInterest).toFixed(2)}</li>
+      <li>{Number(lastItem.currentAmount).toFixed(2)}</li>
+    </ul>
   );
 }

@@ -24,6 +24,7 @@ function App() {
       ?.then((value) => {
         localStorageValue = value ?? [];
         setUserQueries(localStorageValue);
+        setchartItem(localStorageValue.slice(-1)[0].id ?? '')
       })
       .catch(function (err) {
         console.log(err);

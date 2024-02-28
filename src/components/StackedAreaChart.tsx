@@ -19,7 +19,8 @@ type StackedAreaChartProps = {
 
 function StackedAreaChart({ data, chartItem }: StackedAreaChartProps) {
   const svgRef = useRef(null);
-  const lastItem = data.filter(item =>  item.id === chartItem)[0]
+  const containerRef = useRef(null)
+  const lastItem = data.filter(item =>  item.id === chartItem)[0] || data.slice(-1)[0]; //BUG: resize eventlistener causes lastItem to not get any value???
 
   useEffect(() => {
     if (chartItem) {
@@ -27,8 +28,11 @@ function StackedAreaChart({ data, chartItem }: StackedAreaChartProps) {
     }
   }, [chartItem]);
 
-  const boundedWidth = width - MARGIN.left - MARGIN.right;
-  const boundedHeight = height - MARGIN.top - MARGIN.bottom;
+
+  useEffect(() => {
+    window.addEventListener('resize',drawAreaChart)
+    return () => window.removeEventListener('resize',drawAreaChart)
+  },[])
 
   const drawAreaChart = () => {
     const svg = d3.select(svgRef.current);
@@ -36,6 +40,13 @@ function StackedAreaChart({ data, chartItem }: StackedAreaChartProps) {
     // clear previous elements
     svg.selectAll("*").remove();
 
+    // repsonsive hacks :(
+    const svgContainer = d3.select(svg.node().parentNode)
+    const currentWidth = parseInt(svgContainer.style('width'), 10)
+
+    svg.attr('width', currentWidth)
+    const boundedWidth = currentWidth - MARGIN.left - MARGIN.right;
+    const boundedHeight = height - MARGIN.top - MARGIN.bottom;
     // Create X and Y Scales
     const xScale = d3
       .scaleLinear()
@@ -159,7 +170,7 @@ function StackedAreaChart({ data, chartItem }: StackedAreaChartProps) {
       .on("mouseover", (event, d) => {
         const tooltipWidth = 200;
         const tooltipY = MARGIN.top;
-        const tooltipX = (width - tooltipWidth) / 2;
+        const tooltipX = (currentWidth- tooltipWidth) / 2;
 
         tooltip.attr("transform", `translate(${tooltipX}, ${tooltipY})`);
         tooltip.style("font-weight", "bold");
@@ -178,8 +189,8 @@ function StackedAreaChart({ data, chartItem }: StackedAreaChartProps) {
   };
 
   return (
-    <section className="chart_wrapper">
-      <svg width={width} height={height} ref={svgRef}></svg>
+    <section ref={containerRef} className="chart_wrapper">
+      <svg  height={height} ref={svgRef}></svg>
     </section>
   );
 }
