@@ -32,7 +32,7 @@
   display:grid;
   width: 100%;
   max-width: 1280px;
-  row-gap: var(--space-12);
+  row-gap: var(--space-6);
   column-gap: var(--space-4);
   padding: var(--space-8);
   grid-template-areas:
@@ -46,6 +46,10 @@
 /* HEADER */
   .header {
     grid-area: title ;
+  }
+
+  .header h1 {
+    font-size: var(--text-2xl);
     font-family: 'Playfair Display';
   }
 
@@ -98,7 +102,10 @@
 .chart_wrapper {
   grid-area: chart;
   width: 100%;
+  border: 1px solid var(--color-white);
+  border-radius: 10px;
 }
+
 
 /* INPUTFORM */
 .inputForm_wrapper {
@@ -141,16 +148,25 @@
 .history_wrapper {
   grid-area: history;
   width: 100%;
+  background-color: var(--color-white);
+  padding: var(--space-6);
+  border-radius: 10px;
 }
 
-hr {
-  opacity : var(--opacity-25);
+.history_wrapper h2 {
+  margin-bottom: var(--space-6);
 }
 
 .historyItems_wrapper {
   display:flex;
   justify-content: space-between;
   padding:var(--space-8);
+  font-weight: bold;
+  border-radius: 10px;
+}
+
+.historyItems_wrapper.active {
+  background-color: white;
 }
 
 /* FOOTER */
@@ -158,6 +174,7 @@ hr {
 
 footer {
   grid-area: footer;
+  text-align: center;
 }
 
 /* Responsive */
