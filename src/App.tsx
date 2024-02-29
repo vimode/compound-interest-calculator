@@ -7,7 +7,7 @@ import QueryHistory from "./components/QueryHistory";
 import StackedAreaChart from "./components/StackedAreaChart";
 import { useUserQueryStore } from "./store/userQueryStore";
 import { InputFormData, UserQuery } from "./types";
-import { calculateInterest, compareObjects, randomUUID } from "./utils";
+import { calculateInterest, chartDummyData, compareObjects, randomUUID } from "./utils";
 
 function App() {
 
@@ -15,16 +15,16 @@ function App() {
     return { userQueries: state.userQueries, setUserQueries: state.setUserQueries}
   });
 
-  const [chartItem, setchartItem] = useState('')
+  const [chartItem, setchartItem] = useState<UserQuery>(chartDummyData)
 
   useEffect(() => {
     let localStorageValue;
     localforage
       .getItem<UserQuery[]>("queries")
-      ?.then((value) => {
+      .then((value) => {
         localStorageValue = value ?? [];
         setUserQueries(localStorageValue);
-        setchartItem(localStorageValue.slice(-1)[0].id ?? '')
+        setchartItem(localStorageValue.slice(-1)[0] ?? chartDummyData)
       })
       .catch(function (err) {
         console.log(err);
@@ -43,21 +43,26 @@ function App() {
       const interestDetails = calculateInterest(formData)
       const newId = randomUUID();
       const query = formData;
-      setUserQueries([...userQueries, { id: newId, query, details: interestDetails }]);
-      setchartItem(newId)
+      const newItem = {id:newId, query, details: interestDetails}
+      setUserQueries([...userQueries, newItem ]);
+      setchartItem(newItem)
     } else {
-      setchartItem(queryStatus)
+      const lastItem = userQueries.filter(item =>  item.id === queryStatus)[0]
+      setchartItem(lastItem)
     }
   }
 
   return (
     <div className="outer_wrapper">
-      <h1 className="header">Compound Interest Calculator</h1>
-      <OverviewBar data={userQueries} chartItem={chartItem}/>
-      <StackedAreaChart data={userQueries} chartItem = {chartItem} />
+      <section className="header">
+        <h1>Compound Interest Calculator</h1>
+        <p>See how your savings can grow with compound interest.</p>
+      </section>
+      <OverviewBar chartItem={chartItem}/>
+      <StackedAreaChart chartItem = {chartItem} />
       <InputForm addNewEntry={addNewEntry} />
-      <QueryHistory userQueries={userQueries} />
-      <footer>:)</footer>
+      <QueryHistory userQueries={userQueries} chartItem={chartItem.id} />
+      <footer>Built with React and D3.js.</footer>
     </div>
   );
 }
