@@ -1,40 +1,26 @@
-import { useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef } from "react";
 import { UserQuery } from "../types";
 import * as d3 from "d3";
 
 const MARGIN = {
-  top: 20,
-  right: 20,
-  bottom: 30,
-  left: 40,
+  top: 30,
+  right: 15,
+  bottom: 40,
+  left: 70,
 };
 
 const width = 600;
 const height = 400;
 
 type StackedAreaChartProps = {
-  data: UserQuery[];
-  chartItem: string;
+  chartItem: UserQuery;
 };
 
-function StackedAreaChart({ data, chartItem }: StackedAreaChartProps) {
+function StackedAreaChart({ chartItem  }: StackedAreaChartProps) {
   const svgRef = useRef(null);
   const containerRef = useRef(null)
-  const lastItem = data.filter(item =>  item.id === chartItem)[0] || data.slice(-1)[0]; //BUG: resize eventlistener causes lastItem to not get any value???
 
-  useEffect(() => {
-    if (chartItem) {
-      drawAreaChart();
-    }
-  }, [chartItem]);
-
-
-  useEffect(() => {
-    window.addEventListener('resize',drawAreaChart)
-    return () => window.removeEventListener('resize',drawAreaChart)
-  },[])
-
-  const drawAreaChart = () => {
+  const drawAreaChart = useCallback(() => {
     const svg = d3.select(svgRef.current);
 
     // clear previous elements
@@ -47,19 +33,20 @@ function StackedAreaChart({ data, chartItem }: StackedAreaChartProps) {
     svg.attr('width', currentWidth)
     const boundedWidth = currentWidth - MARGIN.left - MARGIN.right;
     const boundedHeight = height - MARGIN.top - MARGIN.bottom;
+
     // Create X and Y Scales
     const xScale = d3
       .scaleLinear()
-      .domain(d3.extent(lastItem.details, (d) => d.year))
+      .domain(d3.extent(chartItem.details, (d) => d.year))
       .range([0, boundedWidth])
       .nice();
 
     const yScale = d3
       .scaleLinear()
       .domain([
-        lastItem.details[0].initialDeposit -
-          lastItem.details[0].initialDeposit * 0.02,
-        d3.max(lastItem.details, (d) => d.currentAmount),
+        chartItem.details[0].initialDeposit -
+          chartItem.details[0].initialDeposit * 0.02,
+        d3.max(chartItem.details, (d) => d.currentAmount),
       ])
       .range([boundedHeight, 0])
       .nice();
@@ -70,7 +57,7 @@ function StackedAreaChart({ data, chartItem }: StackedAreaChartProps) {
       .y(boundedHeight + MARGIN.top)
       .y1((d) => MARGIN.top + yScale(d.currentAmount));
 
-    const areaPath = areaBuilder(lastItem.details);
+    const areaPath = areaBuilder(chartItem.details);
 
     const area2Builder = d3
       .area()
@@ -78,17 +65,49 @@ function StackedAreaChart({ data, chartItem }: StackedAreaChartProps) {
       .y(boundedHeight + MARGIN.top)
       .y1((d) => MARGIN.top + yScale(d.initialDeposit));
 
-    const area2Path = area2Builder(lastItem.details);
+    const area2Path = area2Builder(chartItem.details);
 
+    // first Gradient
+    const areaGradient1 = svg.append('defs')
+      .append('linearGradient')
+      .attr('id', 'areaGradient1')
+      .attr('x1', '0%').attr('y1', '0%')
+      .attr('x2', '0%').attr('y2', '100%');
+
+    areaGradient1.append('stop')
+      .attr('offset', "0%")
+      .attr('stop-color', '#FAD02C')
+
+    areaGradient1.append('stop')
+      .attr('offset', "100%")
+      .attr('stop-color', "#fef1c2")
+
+    // second Gradient
+    const areaGradient2 = svg.append('defs')
+      .append('linearGradient')
+      .attr('id', 'areaGradient2')
+      .attr('x1', '0%').attr('y1','0%')
+      .attr('x2', '0%').attr('y2', '100%');
+
+    areaGradient2.append('stop')
+      .attr('offset', "0%")
+      .attr('stop-color', '#333652')
+      .attr('stop-opacity', '0.3')
+
+    areaGradient2.append('stop')
+      .attr('offset', "100%")
+      .attr('stop-color', 'transparent')
+
+    //path with interestData
     svg
       .append("path")
-      .attr("fill", "#333652")
-      .attr("fill-opacity", 0.5)
+      .style("fill", "url(#areaGradient1)")
       .attr("d", areaPath);
 
+    // path with initialDeposit
     svg
       .append("path")
-      .attr("fill", "#FAD02C")
+      .attr("fill", "url(#areaGradient2)")
       .attr("fill-opacity", 0.8)
       .attr("d", area2Path);
 
@@ -158,19 +177,19 @@ function StackedAreaChart({ data, chartItem }: StackedAreaChartProps) {
     // data circles
     svg
       .selectAll("circle")
-      .data(lastItem.details)
+      .data(chartItem.details)
       .join("circle")
       .attr("cx", (d) => MARGIN.left + xScale(d.year))
       .attr("cy", (d) => MARGIN.top + yScale(d.currentAmount))
-      .attr("r", 6)
+      .attr("r", 5)
       .attr("fill", "#FAD02C")
       .attr("strokeWidth", 1)
       .attr("stroke", "#333652")
       .style("cursor", "pointer")
-      .on("mouseover", (event, d) => {
+      .on("mouseover", (event:MouseEvent, d) => {
         const tooltipWidth = 200;
         const tooltipY = MARGIN.top;
-        const tooltipX = (currentWidth- tooltipWidth) / 2;
+        const tooltipX = MARGIN.left + (currentWidth - tooltipWidth) / 2;
 
         tooltip.attr("transform", `translate(${tooltipX}, ${tooltipY})`);
         tooltip.style("font-weight", "bold");
@@ -186,7 +205,16 @@ function StackedAreaChart({ data, chartItem }: StackedAreaChartProps) {
       .on("mouseout", () => {
         tooltip.style("display", "none");
       });
-  };
+  }, [chartItem]);
+
+
+  useEffect(() => {
+     drawAreaChart();
+     window.addEventListener('resize',drawAreaChart)
+     return () =>  {
+      window.removeEventListener('resize',drawAreaChart)
+    }
+  }, [drawAreaChart]);
 
   return (
     <section ref={containerRef} className="chart_wrapper">
