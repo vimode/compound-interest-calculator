@@ -2,17 +2,15 @@ import { UserQuery } from "../types";
 import DonutChart from "./DonutChart";
 
 type OverviewBarProps = {
-  data: UserQuery[];
-  chartItem: string;
+  chartItem: UserQuery;
 };
 
-function OverviewBar({ data, chartItem }: OverviewBarProps) {
+function OverviewBar({  chartItem }: OverviewBarProps) {
 
-  const latestItem = data.filter(item =>  item.id === chartItem)[0]
-  const lastItem = latestItem?.details.slice(-1)[0] || 1;
+  const lastItem = chartItem?.details.slice(-1)[0] || 1;
 
   // accumulated interest, just the interest $$$
-  const totalInterest = latestItem?.details.reduce((acc,value) => 
+  const totalInterest = chartItem?.details.reduce((acc,value) =>
     Number(acc) + Number(value.increasingInterest),
     0
   ) || 0;
@@ -26,7 +24,6 @@ function OverviewBar({ data, chartItem }: OverviewBarProps) {
 
   return (
     <section className="overview_wrapper">
-      {data.length > 0 ? (
         <ul>
           <li>
             <svg
@@ -135,7 +132,6 @@ function OverviewBar({ data, chartItem }: OverviewBarProps) {
           </li>
           <li>{lastItem && <DonutChart data={lastItem} />}</li>
         </ul>
-      ) : null}
     </section>
   );
 }
