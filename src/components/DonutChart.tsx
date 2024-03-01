@@ -35,7 +35,7 @@ function DonutChart ({data}:DonutChartProps) {
     <svg width={WIDTH} height={HEIGHT} ref={svgRef}>
         <g transform={`translate(${WIDTH/ 2}, ${HEIGHT / 2})`}>
           {arcs.map((arc, i) => {
-            return <path key={i} d={arc} fill={colors[i]}/>;
+            return <path key={i} d={arc || undefined} fill={colors[i]}/>;
           })}
         </g>
     </svg>
