@@ -13,21 +13,16 @@ function InputForm({addNewEntry}:InputFormProps) {
     yearsOfGrowth: 5,
   });
 
-  // const [formErrors, setformErrors] = useState({
-  //   initialDeposit: null,
-  //   rateOfInterest: null,
-  //   yearsOfGrowth: null,
-  // });
-
   function handleInputChange(event: React.ChangeEvent<HTMLInputElement>) {
     setFormData({ ...formData, [event.target.name]: event.target.value });
   }
 
   function handleSubmit(event: React.SyntheticEvent) {
     event.preventDefault();
+    const {initialDeposit, rateOfInterest, yearsOfGrowth} = formData;
+    if(initialDeposit <= 0 || rateOfInterest <= 0 || yearsOfGrowth <= 0) return
     addNewEntry(formData)
   }
-
 
   return (
     <form className="inputForm_wrapper" onSubmit={handleSubmit}>
