@@ -19,8 +19,6 @@ function InputForm({addNewEntry}:InputFormProps) {
 
   function handleSubmit(event: React.SyntheticEvent) {
     event.preventDefault();
-    const {initialDeposit, rateOfInterest, yearsOfGrowth} = formData;
-    if(initialDeposit <= 0 || rateOfInterest <= 0 || yearsOfGrowth <= 0) return
     addNewEntry(formData)
   }
 
@@ -36,6 +34,7 @@ function InputForm({addNewEntry}:InputFormProps) {
           step="0.01"
           id="initialDeposit"
           name="initialDeposit"
+          required
           value={formData.initialDeposit}
           onChange={handleInputChange}
           aria-required
@@ -55,6 +54,7 @@ function InputForm({addNewEntry}:InputFormProps) {
           value={formData.rateOfInterest}
           step="0.01"
           onChange={handleInputChange}
+          required
           aria-required
           aria-description="rate of interest"
         />
@@ -71,6 +71,7 @@ function InputForm({addNewEntry}:InputFormProps) {
           name="yearsOfGrowth"
           value={formData.yearsOfGrowth}
           onChange={handleInputChange}
+          required
           aria-required
           aria-description="years of growth"
         />
