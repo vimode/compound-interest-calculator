@@ -32,13 +32,20 @@ type HistoryItemProps = {
 function HistoryItem({ query, chartItem }: HistoryItemProps) {
   const { id, details } = query;
   const lastItem = details.slice(-1)[0];
+  
+  const itemData = {
+    amount: new Intl.NumberFormat("currency",{maximumFractionDigits: 0}).format(lastItem.initialDeposit),
+    years: new Intl.NumberFormat("en-US",{unit: "year", unitDisplay: "short", maximumFractionDigits: 0}).format(lastItem.year),
+    interest: new Intl.NumberFormat("currency",{maximumFractionDigits: 0}).format(lastItem.rateOfInterest),
+    total: new Intl.NumberFormat("currency",{maximumFractionDigits: 0}).format(lastItem.currentAmount),
+  }
 
   return (
     <ul className={`historyItems_wrapper  ${chartItem === id ? 'active' : ''}`}>
-      <li>{lastItem.year}</li>
-      <li>{Number(lastItem.initialDeposit).toFixed(2)}</li>
-      <li>{Number(lastItem.rateOfInterest).toFixed(2)}</li>
-      <li>{Number(lastItem.currentAmount).toFixed(2)}</li>
+      <li>{itemData.years}</li>
+      <li>{itemData.amount}</li>
+      <li>{itemData.interest}</li>
+      <li>{itemData.total}</li>
     </ul>
   );
 }
