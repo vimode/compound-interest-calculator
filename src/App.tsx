@@ -62,7 +62,7 @@ function App() {
       <StackedAreaChart chartItem = {chartItem} />
       <InputForm addNewEntry={addNewEntry} />
       <QueryHistory userQueries={userQueries} chartItem={chartItem.id} setchartItem={setchartItem} />
-      <footer>Built with [React and D3.js](https://github.com/vimode/compound-interest-calculator). </footer>
+      <footer>Built with <a href="https://github.com/vimode/compound-interest-calculator">React and D3.js</a></footer>
     </div>
   );
 }
