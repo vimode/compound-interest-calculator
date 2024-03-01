@@ -3,15 +3,22 @@ import { UserQuery } from "../types";
 type QueryHistoryProps = {
   userQueries: UserQuery[];
   chartItem: string;
+  setchartItem: (value:UserQuery) => void;
 };
 
-function QueryHistory({ userQueries, chartItem }: QueryHistoryProps) {
+function QueryHistory({ userQueries, chartItem, setchartItem }: QueryHistoryProps) {
+
+  function updateChartItem (id:string) {
+    const lastItem = userQueries.filter(item =>  item.id === id)[0]
+    setchartItem(lastItem)
+  }
+
   return (
     <section className="history_wrapper">
       <h2>History</h2>
       {userQueries.length > 0 ? (
         [...userQueries].reverse().map((query) => (
-          <div key={query.id}>
+          <div key={query.id} onClick={() => updateChartItem((query.id))}>
             <HistoryItem query={query} chartItem={chartItem} />
           </div>
         ))
