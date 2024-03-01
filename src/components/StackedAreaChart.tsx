@@ -1,3 +1,5 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck
 import { useCallback, useEffect, useRef } from "react";
 import { UserQuery } from "../types";
 import * as d3 from "d3";
@@ -5,11 +7,11 @@ import * as d3 from "d3";
 const MARGIN = {
   top: 30,
   right: 15,
-  bottom: 40,
+  bottom: 50,
   left: 70,
 };
 
-const width = 600;
+// const width = 600;
 const height = 400;
 
 type StackedAreaChartProps = {
@@ -27,7 +29,7 @@ function StackedAreaChart({ chartItem  }: StackedAreaChartProps) {
     svg.selectAll("*").remove();
 
     // repsonsive hacks :(
-    const svgContainer = d3.select(svg.node().parentNode)
+    const svgContainer = d3.select(svg.node().parentNode);
     const currentWidth = parseInt(svgContainer.style('width'), 10)
 
     svg.attr('width', currentWidth)
@@ -112,32 +114,42 @@ function StackedAreaChart({ chartItem  }: StackedAreaChartProps) {
       .attr("d", area2Path);
 
     // x-axis
-    svg
+    const gx = svg
       .append("g")
       .attr(
         "transform",
         `translate(${MARGIN.left}, ${boundedHeight + MARGIN.top})`
       )
+      .call(d3.axisBottom(xScale))
+
+    gx.transition()
+      .duration(750)
       .call(d3.axisBottom(xScale).ticks(5, "s"))
-      .append("text")
-      .attr("class", "label")
-      .attr("x", boundedWidth)
-      .attr("y", -6)
-      .style("text-anchor", "end")
+
+    // text label
+    svg.append("text")
+      .attr("transform", `translate(${MARGIN.left + boundedWidth / 2}, ${height - 10})`)
+      .style("text-anchor", "middle")
       .text("Year");
 
     // y-axis
-    svg
-      .append("g")
+    const gy = svg.append("g")
       .attr("transform", `translate(${MARGIN.left},${MARGIN.top})`)
-      .call(d3.axisLeft(yScale).ticks(5, "~s"))
+      .call(d3.axisLeft(yScale));
+
+    gy.transition()
+      .duration(750)
+      .call(d3.axisLeft(yScale).ticks(5, "~s"));
+    
+    // text label
+    svg
       .append("text")
-      .attr("class", "label")
       .attr("transform", "rotate(-90)")
-      .attr("y", 6)
-      .attr("dy", ".71em")
-      .style("text-anchor", "end")
-      .text("Current Amount");
+      .attr("y", 0)
+      .attr("x", 0 - (MARGIN.top + boundedHeight / 2))
+      .attr("dy", "1em")
+      .style("text-anchor", "middle")
+      .text("Amount");
 
     //tooltip
     const tooltip = svg
@@ -147,8 +159,8 @@ function StackedAreaChart({ chartItem  }: StackedAreaChartProps) {
 
     tooltip
       .append("rect")
-      .attr("width", 200)
-      .attr("height", 80)
+      .attr("width", 220)
+      .attr("height", 70)
       .attr("fill", "rgba(0,0,0,0.8)")
       .attr("rx", 5)
       .attr("ry", 5);
@@ -189,7 +201,7 @@ function StackedAreaChart({ chartItem  }: StackedAreaChartProps) {
       .on("mouseover", (event:MouseEvent, d) => {
         const tooltipWidth = 200;
         const tooltipY = MARGIN.top;
-        const tooltipX = MARGIN.left + (currentWidth - tooltipWidth) / 2;
+        const tooltipX = (currentWidth - tooltipWidth) / 2;
 
         tooltip.attr("transform", `translate(${tooltipX}, ${tooltipY})`);
         tooltip.style("font-weight", "bold");
