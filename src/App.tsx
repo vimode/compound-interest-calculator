@@ -43,7 +43,7 @@ function App() {
       const interestDetails = calculateInterest(formData)
       const newId = randomUUID();
       const query = formData;
-      const newItem = {id:newId, query, details: interestDetails}
+      const newItem:UserQuery = {id:newId, query, details: interestDetails}
       setUserQueries([...userQueries, newItem ]);
       setchartItem(newItem)
     } else {
@@ -61,7 +61,7 @@ function App() {
       <OverviewBar chartItem={chartItem}/>
       <StackedAreaChart chartItem = {chartItem} />
       <InputForm addNewEntry={addNewEntry} />
-      <QueryHistory userQueries={userQueries} chartItem={chartItem.id} />
+      <QueryHistory userQueries={userQueries} chartItem={chartItem.id} setchartItem={setchartItem} />
       <footer>Built with React and D3.js.</footer>
     </div>
   );
