@@ -13,11 +13,11 @@ function InputForm({addNewEntry}:InputFormProps) {
     yearsOfGrowth: 5,
   });
 
-  const [formErrors, setformErrors] = useState({
-    initialDeposit: null,
-    rateOfInterest: null,
-    yearsOfGrowth: null,
-  });
+  // const [formErrors, setformErrors] = useState({
+  //   initialDeposit: null,
+  //   rateOfInterest: null,
+  //   yearsOfGrowth: null,
+  // });
 
   function handleInputChange(event: React.ChangeEvent<HTMLInputElement>) {
     setFormData({ ...formData, [event.target.name]: event.target.value });
@@ -35,7 +35,6 @@ function InputForm({addNewEntry}:InputFormProps) {
         <label htmlFor="initialDeposit">
           Initial Deposit
           <span className="visually-hidden">is required</span>
-          {/* <span aria-hidden>*</span> */}
         </label>
         <input
           type="number"
@@ -45,19 +44,8 @@ function InputForm({addNewEntry}:InputFormProps) {
           value={formData.initialDeposit}
           onChange={handleInputChange}
           aria-required
-          aria-invalid={!!formErrors?.initialDeposit}
-          aria-errormessage={
-            formErrors?.initialDeposit ? "Please insert an amount" : undefined
-          }
           aria-description="initial deposit amount"
         />
-        {/* {formErrors?.initialDeposit && ( */}
-        {/*   <span id="intial-deposit-error-message" */}
-        {/*     aria-live="polite" */}
-        {/*     aria-relevant="additions removals"> */}
-        {/*     {formErrors.initialDeposit} */}
-        {/*   </span> */}
-        {/* )} */}
       </div>
 
       <div>
@@ -73,21 +61,8 @@ function InputForm({addNewEntry}:InputFormProps) {
           step="0.01"
           onChange={handleInputChange}
           aria-required
-          aria-invalid={!!formErrors?.rateOfInterest}
-          aria-errormessage={
-            formErrors?.rateOfInterest ? "Please insert an amount" : undefined
-          }
           aria-description="rate of interest"
         />
-        {formErrors?.rateOfInterest && (
-          <span
-            id="rate-of-interest-error-message"
-            aria-live="polite"
-            aria-relevant="additions removals"
-          >
-            {formErrors.rateOfInterest}
-          </span>
-        )}
       </div>
 
       <div>
@@ -102,21 +77,8 @@ function InputForm({addNewEntry}:InputFormProps) {
           value={formData.yearsOfGrowth}
           onChange={handleInputChange}
           aria-required
-          aria-invalid={!!formErrors?.yearsOfGrowth}
-          aria-errormessage={
-            formErrors?.yearsOfGrowth ? "Please insert the years" : undefined
-          }
           aria-description="years of growth"
         />
-        {formErrors?.yearsOfGrowth && (
-          <span
-            id="years-of-growth-error-message"
-            aria-live="polite"
-            aria-relevant="additions removals"
-          >
-            {formErrors.yearsOfGrowth}
-          </span>
-        )}
       </div>
       <button type="submit">Calculate</button>
     </form>
