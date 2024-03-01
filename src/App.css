@@ -128,6 +128,12 @@
   gap: var(--space-2);
 }
 
+.inputForm_wrapper div input[type="number"]  {
+  padding: var(--space-3);
+  border-radius: 10px;
+  border: 1px solid var(--color-white);
+}
+
 .inputForm_wrapper button {
   background-color: var(--color-highlight);
   padding: var(--space-2);
@@ -136,13 +142,17 @@
   text-transform: uppercase;
   letter-spacing: 1px;
   width: 100%;
-  font-weight: 600;
-  margin-top: var(--space-4);
+  font-weight: bold;
   cursor: pointer;
   margin-top: auto;
+  transition: background-color 350ms linear, color 300ms linear;
 }
 
-
+.inputForm_wrapper button:hover,
+.inputForm_wrapper button:focus {
+  background-color: var(--color-secondary);
+  color: var(--color-highlight);
+}
 
 /* HISTORY STACK */
 .history_wrapper {
@@ -155,6 +165,10 @@
 
 .history_wrapper h2 {
   margin-bottom: var(--space-6);
+}
+
+.history_wrapper div {
+  cursor: pointer;
 }
 
 .historyItems_wrapper {
