@@ -1,16 +1,17 @@
 import { useState } from "react";
-import { InputFormData } from "../types";
+import { InputFormData, UserQuery } from "../types";
 
 type InputFormProps = {
-  addNewEntry : (formData:InputFormData) => void;
+  addNewEntry: (formData: InputFormData) => void;
+  chartItem: UserQuery;
 }
 
-function InputForm({addNewEntry}:InputFormProps) {
+function InputForm({ addNewEntry, chartItem }: InputFormProps) {
 
   const [formData, setFormData] = useState({
-    initialDeposit: 1000,
-    rateOfInterest: 2,
-    yearsOfGrowth: 5,
+    initialDeposit: chartItem.query.initialDeposit,
+    rateOfInterest: chartItem.query.rateOfInterest,
+    yearsOfGrowth: chartItem.query.yearsOfGrowth,
   });
 
   function handleInputChange(event: React.ChangeEvent<HTMLInputElement>) {

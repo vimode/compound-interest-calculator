@@ -1,12 +1,12 @@
 import { InputFormData, InterestDetails, UserQuery } from "./types";
 
 // Generate a random UUID
-export function randomUUID():string {
+export function randomUUID(): string {
   return self.crypto.randomUUID();
 }
 
 // Calculate Compound Interest 
-export function calculateInterest(formData: InputFormData) : InterestDetails[] {
+export function calculateInterest(formData: InputFormData): InterestDetails[] {
   const { initialDeposit, yearsOfGrowth, rateOfInterest } = formData;
   const decimalInterestRate = rateOfInterest / 100;
 
@@ -37,25 +37,24 @@ export function calculateInterest(formData: InputFormData) : InterestDetails[] {
   }
 
   return interestDetails;
-
-  }
+}
 
 // Compare input form data with userQueries to find matching entry id
-export function compareObjects (inputDataObject:InputFormData, allQueries:UserQuery[]) : string | null {
-  const inputValues= Object.values(inputDataObject);
+export function compareObjects(inputDataObject: InputFormData, allQueries: UserQuery[]): string | null {
+  const inputValues = Object.values(inputDataObject);
 
-  for(const thisQuery of allQueries) {
+  for (const thisQuery of allQueries) {
     const queryValues = Object.values(thisQuery.query)
-    if(inputValues.length !== queryValues.length) continue;
+    if (inputValues.length !== queryValues.length) continue;
 
     let isMatch = true;
-    for(let i = 0; i < inputValues.length; i++) {
-      if(inputValues[i] != queryValues[i]) {
+    for (let i = 0; i < inputValues.length; i++) {
+      if (inputValues[i] != queryValues[i]) {
         isMatch = false;
         break;
       }
     }
-    if(isMatch) {
+    if (isMatch) {
       return thisQuery.id
     }
   }

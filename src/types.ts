@@ -6,9 +6,9 @@ export interface InputFormData {
 
 export interface InterestDetails {
   year: number;
-  rateOfInterest:number;
-  initialDeposit:number;
-  currentAmount:number;
+  rateOfInterest: number;
+  initialDeposit: number;
+  currentAmount: number;
   increasingInterest: number;
 }
 

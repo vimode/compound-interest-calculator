@@ -18,7 +18,7 @@ type StackedAreaChartProps = {
   chartItem: UserQuery;
 };
 
-function StackedAreaChart({ chartItem  }: StackedAreaChartProps) {
+function StackedAreaChart({ chartItem }: StackedAreaChartProps) {
   const svgRef = useRef(null);
   const containerRef = useRef(null)
 
@@ -47,7 +47,7 @@ function StackedAreaChart({ chartItem  }: StackedAreaChartProps) {
       .scaleLinear()
       .domain([
         chartItem.details[0].initialDeposit -
-          chartItem.details[0].initialDeposit * 0.02,
+        chartItem.details[0].initialDeposit * 0.02,
         d3.max(chartItem.details, (d) => d.currentAmount),
       ])
       .range([boundedHeight, 0])
@@ -88,7 +88,7 @@ function StackedAreaChart({ chartItem  }: StackedAreaChartProps) {
     const areaGradient2 = svg.append('defs')
       .append('linearGradient')
       .attr('id', 'areaGradient2')
-      .attr('x1', '0%').attr('y1','0%')
+      .attr('x1', '0%').attr('y1', '0%')
       .attr('x2', '0%').attr('y2', '100%');
 
     areaGradient2.append('stop')
@@ -140,7 +140,7 @@ function StackedAreaChart({ chartItem  }: StackedAreaChartProps) {
     gy.transition()
       .duration(750)
       .call(d3.axisLeft(yScale).ticks(5, "~s"));
-    
+
     // text label
     svg
       .append("text")
@@ -198,7 +198,7 @@ function StackedAreaChart({ chartItem  }: StackedAreaChartProps) {
       .attr("strokeWidth", 1)
       .attr("stroke", "#333652")
       .style("cursor", "pointer")
-      .on("mouseover", (event:MouseEvent, d) => {
+      .on("mouseover", (event: MouseEvent, d) => {
         const tooltipWidth = 200;
         const tooltipY = MARGIN.top;
         const tooltipX = (currentWidth - tooltipWidth) / 2;
@@ -221,16 +221,16 @@ function StackedAreaChart({ chartItem  }: StackedAreaChartProps) {
 
 
   useEffect(() => {
-     drawAreaChart();
-     window.addEventListener('resize',drawAreaChart)
-     return () =>  {
-      window.removeEventListener('resize',drawAreaChart)
+    drawAreaChart();
+    window.addEventListener('resize', drawAreaChart)
+    return () => {
+      window.removeEventListener('resize', drawAreaChart)
     }
   }, [drawAreaChart]);
 
   return (
     <section ref={containerRef} className="chart_wrapper">
-      <svg  height={height} ref={svgRef}></svg>
+      <svg height={height} ref={svgRef}></svg>
     </section>
   );
 }

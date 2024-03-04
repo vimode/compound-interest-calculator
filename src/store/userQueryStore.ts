@@ -7,9 +7,9 @@ interface StoreState {
 }
 
 export const useUserQueryStore = create<StoreState>(
-    (set: SetState<StoreState>) => ({
-      userQueries: [],
-      setUserQueries: (newUserQueries) => set({ userQueries: newUserQueries }),
-    }),
+  (set: SetState<StoreState>) => ({
+    userQueries: [],
+    setUserQueries: (newUserQueries) => set({ userQueries: newUserQueries }),
+  }),
 );
 

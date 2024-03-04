@@ -10,11 +10,11 @@ const WIDTH = 100;
 const HEIGHT = 100;
 const MARGIN = 20;
 
-function DonutChart ({data}:DonutChartProps) {
+function DonutChart({ data }: DonutChartProps) {
 
   const svgRef = useRef(null)
 
-  const radius = Math.min(WIDTH,HEIGHT) / 2 - MARGIN;
+  const radius = Math.min(WIDTH, HEIGHT) / 2 - MARGIN;
   const colors = ['#FAD02C', '#333652']
 
   const pieData = [data.increasingInterest, data.currentAmount]
@@ -22,10 +22,10 @@ function DonutChart ({data}:DonutChartProps) {
   const pie = pieGenerator(pieData);
 
   const arcPathGenerator = d3.arc();
-  const arcs =  pie.map((p) => 
+  const arcs = pie.map((p) =>
     arcPathGenerator({
-      innerRadius:50,
-      outerRadius:radius,
+      innerRadius: 50,
+      outerRadius: radius,
       startAngle: p.startAngle,
       endAngle: p.endAngle
     })
@@ -33,11 +33,11 @@ function DonutChart ({data}:DonutChartProps) {
 
   return (
     <svg width={WIDTH} height={HEIGHT} ref={svgRef}>
-        <g transform={`translate(${WIDTH/ 2}, ${HEIGHT / 2})`}>
-          {arcs.map((arc, i) => {
-            return <path key={i} d={arc || undefined} fill={colors[i]}/>;
-          })}
-        </g>
+      <g transform={`translate(${WIDTH / 2}, ${HEIGHT / 2})`}>
+        {arcs.map((arc, i) => {
+          return <path key={i} d={arc || undefined} fill={colors[i]} />;
+        })}
+      </g>
     </svg>
   )
 }

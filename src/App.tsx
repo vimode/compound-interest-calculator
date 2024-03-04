@@ -12,7 +12,7 @@ import { calculateInterest, chartDummyData, compareObjects, randomUUID } from ".
 function App() {
 
   const { userQueries, setUserQueries } = useUserQueryStore((state) => {
-    return { userQueries: state.userQueries, setUserQueries: state.setUserQueries}
+    return { userQueries: state.userQueries, setUserQueries: state.setUserQueries }
   });
 
   const [chartItem, setchartItem] = useState<UserQuery>(chartDummyData)
@@ -26,7 +26,7 @@ function App() {
         setUserQueries(localStorageValue);
         setchartItem(localStorageValue.slice(-1)[0] ?? chartDummyData)
       })
-      .catch(function (err) {
+      .catch(function(err) {
         console.log(err);
       });
   }, []);
@@ -35,19 +35,19 @@ function App() {
     if (userQueries.length > 0) localforage.setItem("queries", userQueries);
   }, [userQueries]);
 
-  
+
   // New User Query
-  function addNewEntry(formData:InputFormData) {
-    const queryStatus = compareObjects(formData,userQueries)
-    if(!queryStatus) {
+  function addNewEntry(formData: InputFormData) {
+    const queryStatus = compareObjects(formData, userQueries)
+    if (!queryStatus) {
       const interestDetails = calculateInterest(formData)
       const newId = randomUUID();
       const query = formData;
-      const newItem:UserQuery = {id:newId, query, details: interestDetails}
-      setUserQueries([...userQueries, newItem ]);
+      const newItem: UserQuery = { id: newId, query, details: interestDetails }
+      setUserQueries([...userQueries, newItem]);
       setchartItem(newItem)
     } else {
-      const lastItem = userQueries.filter(item =>  item.id === queryStatus)[0]
+      const lastItem = userQueries.filter(item => item.id === queryStatus)[0]
       setchartItem(lastItem)
     }
   }
@@ -58,9 +58,9 @@ function App() {
         <h1>Compound Interest Calculator</h1>
         <p>See how your savings can grow with compound interest.</p>
       </section>
-      <OverviewBar chartItem={chartItem}/>
-      <StackedAreaChart chartItem = {chartItem} />
-      <InputForm addNewEntry={addNewEntry} />
+      <OverviewBar chartItem={chartItem} />
+      <StackedAreaChart chartItem={chartItem} />
+      <InputForm addNewEntry={addNewEntry} chartItem={chartItem} />
       <QueryHistory userQueries={userQueries} chartItem={chartItem.id} setchartItem={setchartItem} />
       <footer>Built with <a href="https://github.com/vimode/compound-interest-calculator">React and D3.js</a></footer>
     </div>
